@@ -37,9 +37,28 @@ app.post('/api/auth/login', (req, res) => {
   res.status(200).json({ message: 'Success: User would be logged in here, returning an auth token.' });
 });
 
+// POST /api/auth/logout - Log out user and invalidate session/token
+app.post('/api/auth/logout', (req, res) => {
+  res.status(200).json({ message: 'Success: User logged out successfully. Session invalidated.' });
+});
+
+
+// PUT /api/users/profile - Manage/update user account details
+app.put('/api/users/profile', (req, res) => {
+  const profileUpdates = req.body;
+  console.log('Received profile update data:', profileUpdates);
+  res.status(200).json({ message: 'Success: User profile information updated in database.' });
+});
+
 
 // --- Tool Routes (from User Stories #3, #4, #5) ---
 // This section demonstrates the full CRUD cycle for tools.
+
+
+// POST /api/tokens/acquire - Beneficiary acquires/claims monthly token quota
+app.post('/api/tokens/acquire', (req, res) => {
+  res.status(200).json({ message: 'Success: Monthly tokens acquired. User token balance updated.' });
+});
 
 // GET /api/tools - Read all available tools
 app.get('/api/tools', (req, res) => {
@@ -82,6 +101,14 @@ app.delete('/api/tools/:id', (req, res) => {
 app.post('/api/tools/:id/borrow', (req, res) => {
     const toolId = req.params.id;
     res.status(200).json({ message: `Success: A user would borrow tool with ID ${toolId}, and their tokens would be updated.` });
+});
+
+// POST /api/tools/:id/return - Return tool & member accepts token transaction
+app.post('/api/tools/:id/return', (req, res) => {
+  const toolId = req.params.id;
+  res.status(200).json({ 
+    message: `Success: Tool ${toolId} marked as returned, member accepted the token transaction, and tool is now available again.` 
+  });
 });
 
 // 4. SERVER START
